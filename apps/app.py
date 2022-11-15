@@ -21,10 +21,12 @@ def read_root():
 # Read
 @app.get("/model/deployments")
 def read_root(key:str, value:Union[int, str]):
-    result = myCol.find({key : value})
-    return f"GET {[res for res in result]}"
+    result = myCol.find({key : value}, {"_id" : 0})
+    result = list(result)
+    return result
 
-# Create
+
+# Insert
 @app.post("/model/deployments")
 async def read_root(request: Request):
     # mytestData = {"modelId" : 1, "modelName" : "solar_custoNet_SLFN_0.6_0.729_221022_182027.pkl", \
@@ -32,8 +34,8 @@ async def read_root(request: Request):
     #                     "containerPort" : "None"}
     data = await request.json()
     myCol.insert_one(data)
-    result = myCol.find_one({"modelId":data["modelId"]})
-    return f"POST {result}"
+    result = myCol.find_one({"modelId":data["modelId"]}, {"_id" : 0})
+    return result
 
 # Update
 @app.put("/model/deployments")
@@ -42,20 +44,16 @@ async def read_root(request: Request):
     filter = {"modelId":data["modelId"]}
     newValues = { "$set": {data["keyToBeChanged"]: data["valueToBeChanged"]} }
     myCol.update_one(filter, newValues)
-    result = myCol.find_one({"modelId":data["modelId"]})
-    return f"PUT {result}"
+    result = myCol.find_one({"modelId":data["modelId"]}, {"_id" : 0})
+    return result
 
 # Delete
 @app.delete("/model/deployments")
 def read_root(key:str, value:Union[int, str]):
 
-    result = myCol.delete_one({key : value})
-    return f"DELETE {result}"
-
-
-
-
-
+    result = myCol.find_one({key : value}, {"_id" : 0})
+    myCol.delete_one({key : value})
+    return result
 
 
 if __name__ == '__main__':
