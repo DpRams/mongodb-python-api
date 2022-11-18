@@ -25,6 +25,12 @@ def read_root(key:str, value:Union[int, str]):
     result = list(result)
     return result
 
+# Read all
+@app.get("/model/deployments/all")
+def read_root():
+    result = myCol.find({},{"_id" : 0})
+    result = list(result)
+    return result
 
 # Insert
 @app.post("/model/deployments")
