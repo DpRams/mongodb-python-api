@@ -5,7 +5,8 @@ import pymongo
 
 app = FastAPI()
 
-myClient = pymongo.MongoClient("mongodb://localhost:27017/")
+# myClient = pymongo.MongoClient("mongodb://localhost:27017/")
+myClient = pymongo.MongoClient("mongodb://host.docker.internal:27017/")
 myDb = myClient["model"]
 myCol = myDb["deployments"]
 
@@ -63,4 +64,4 @@ def read_root(key:str, value:Union[int, str]):
 
 
 if __name__ == '__main__':
-	uvicorn.run("app:app", host="127.0.0.1", port=8001, reload=True) # 若有 rewrite file 可能不行 reload=True，不然會一直重開 by 李忠大師
+	uvicorn.run("app:app", host="0.0.0.0", port=8001, reload=True) # 若有 rewrite file 可能不行 reload=True，不然會一直重開 by 李忠大師
