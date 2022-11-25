@@ -6,6 +6,8 @@
 
 Provide the basic CRUD operations with FastAPI.
 
+#### MongoDB 目前是手動先建 user，並在此處輸入 user, pwd
+
 #### GET : 透過 action_url 直接輸入參數
 
 ```python=0

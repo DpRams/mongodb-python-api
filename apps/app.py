@@ -6,7 +6,9 @@ import pymongo
 app = FastAPI()
 
 # myClient = pymongo.MongoClient("mongodb://localhost:27017/")
-myClient = pymongo.MongoClient("mongodb://host.docker.internal:27017/")
+myClient = pymongo.MongoClient("mongodb://host.docker.internal:27017/", \
+                                username="root", \
+                                password="12345679")
 myDb = myClient["model"]
 myCol = myDb["deployments"]
 
