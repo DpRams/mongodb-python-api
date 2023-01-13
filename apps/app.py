@@ -14,11 +14,23 @@ myCol = myDb["deployments"]
 
 # Function
 
+@app.get("/")
+def read_root():
 
-# get current count of data -> return the next id
+    return "MongoDB-Python-API"
+
+# get current count of data
 @app.get("/model/deployments/counts")
 def read_root():
     result = myCol.count_documents({})
+    return result
+
+
+# get max id of data
+@app.get("/model/deployments/id/max")
+def get_max_id():
+    result = myCol.find().sort("modelId", pymongo.DESCENDING)[0]["modelId"]
+    print(result)
     return result
 
 # Read
@@ -64,6 +76,14 @@ def read_root(key:str, value:Union[int, str]):
     myCol.delete_one({key : value})
     return result
 
+# Delete all
+@app.delete("/model/deployments/all")
+def delete_all():
+
+    result = myCol.delete_many({})
+    
+    return f"{result.deleted_count} record(s) has been deleted"
+
 
 if __name__ == '__main__':
-	uvicorn.run("app:app", host="0.0.0.0", port=8001, reload=True) # 若有 rewrite file 可能不行 reload=True，不然會一直重開 by 李忠大師
+	uvicorn.run("app:app", host="0.0.0.0", port=8001, reload=True)
