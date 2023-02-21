@@ -29,8 +29,10 @@ def read_root():
 # get max id of data
 @app.get("/model/deployments/id/max")
 def get_max_id():
-    result = myCol.find().sort("modelId", pymongo.DESCENDING)[0]["modelId"]
-    print(result)
+    try:
+        result = myCol.find().sort("modelId", pymongo.DESCENDING)[0]["modelId"]
+    except:
+        result = 0
     return result
 
 # Read
